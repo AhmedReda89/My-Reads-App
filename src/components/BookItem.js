@@ -8,7 +8,8 @@ class BookItem extends React.Component {
               <div className="book-top">
                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url(${this.props.src.imageLinks.smallThumbnail?this.props.src.imageLinks.smallThumbnail:"https://via.placeholder.com/128x193?text=No%20Cover%20Image"})` }}></div>
                 <div className="book-shelf-changer">
-                  <select>
+                  <select onChange={(e) => this.props.changeShelf(this.props.src, e.target.value)}
+                          value={this.props.src.shelf ? this.props.src.shelf : "none"}>
                     <option value="move" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>

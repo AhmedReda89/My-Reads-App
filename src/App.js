@@ -15,6 +15,8 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
+    
+    
     Books: [],
     currentlyReadingBooks: [],
     wantToReadBooks: [],
@@ -33,11 +35,28 @@ class BooksApp extends React.Component {
       }))
     });
   }
+
+  changeShelf = (book, shelf) => {
+
+    if (book.shelf !== shelf) {
+      BooksAPI.update(book, shelf).then(() => {
+        book.shelf = shelf
+        this.setState(state => ({
+          books: state.Books.filter(b => b.id !== book.id).concat([book]),
+          currentlyReadingBooks: state.Books.filter((book) => book.shelf === "currentlyReading"),
+          wantToReadBooks: state.Books.filter((book) => book.shelf === 'wantToRead'),
+          alreadyReadBooks: state.Books.filter((book) => book.shelf === 'read')
+        }))
+      })
+    }
+
+  }
+
   render() {
     return (
       <div className="app">
         <Route exact path="/Search" component={SearchView}></Route>
-        <Route exact path="/" render={() => 
+        <Route exact path="/" render={() =>
           <div className="list-books">
             <ListHeader></ListHeader>
             <div className="list-books-content">
@@ -47,7 +66,7 @@ class BooksApp extends React.Component {
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {this.state.currentlyReadingBooks.map((book) => (
-                        <BookItem src={book}></BookItem>
+                        <BookItem src={book} changeShelf={this.changeShelf}></BookItem>
                       ))}
                     </ol>
                   </div>
@@ -57,7 +76,7 @@ class BooksApp extends React.Component {
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {this.state.wantToReadBooks.map((book) => (
-                        <BookItem src={book}></BookItem>
+                        <BookItem src={book} changeShelf={this.changeShelf}></BookItem>
                       ))}
                     </ol>
                   </div>
@@ -67,7 +86,7 @@ class BooksApp extends React.Component {
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {this.state.alreadyReadBooks.map((book) => (
-                        <BookItem src={book}></BookItem>
+                        <BookItem src={book} changeShelf={this.changeShelf}></BookItem>
                       ))}
                     </ol>
                   </div>
