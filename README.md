@@ -18,8 +18,8 @@ A great application to manage your reads and keep track of them, Built with Reac
 
 * **Ahmed Reda** - [Click here to view some work](https://github.com/AhmedReda89)
 
-* See also the list of [contributors](https://github.com/AhmedReda89/Testing-with-Jasmine/graphs/contributors) who participated in this project.
+* See also the list of [contributors](https://github.com/AhmedReda89/My-Reads-App/graphs/contributors) who participated in this project.
 
 ## Acknowledgement
 
-Thank you Udacity Team Again, for the starter code and the APIs ..:heart:
+:heart: Thank you Udacity Team Again, for the starter code and the APIs. :heart:
