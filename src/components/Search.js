@@ -107,7 +107,7 @@ class SearchView extends React.Component {
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {this.state.searches.map((book) => (
-                            <BookItem src={book} changeShelf={this.changeShelf}></BookItem>
+                            <BookItem key={book.id} src={book} changeShelf={this.changeShelf}></BookItem>
                         ))}
                     </ol>
                 </div>

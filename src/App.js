@@ -66,7 +66,7 @@ class BooksApp extends React.Component {
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {this.state.currentlyReadingBooks.map((book) => (
-                        <BookItem src={book} changeShelf={this.changeShelf}></BookItem>
+                        <BookItem key={book.id} src={book} changeShelf={this.changeShelf}></BookItem>
                       ))}
                     </ol>
                   </div>
@@ -76,7 +76,7 @@ class BooksApp extends React.Component {
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {this.state.wantToReadBooks.map((book) => (
-                        <BookItem src={book} changeShelf={this.changeShelf}></BookItem>
+                        <BookItem key={book.id} src={book} changeShelf={this.changeShelf}></BookItem>
                       ))}
                     </ol>
                   </div>
@@ -86,7 +86,7 @@ class BooksApp extends React.Component {
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {this.state.alreadyReadBooks.map((book) => (
-                        <BookItem src={book} changeShelf={this.changeShelf}></BookItem>
+                        <BookItem key={book.id} src={book} changeShelf={this.changeShelf}></BookItem>
                       ))}
                     </ol>
                   </div>
