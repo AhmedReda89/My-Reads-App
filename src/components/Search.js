@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../BooksAPI';
 import BookItem from './BookItem';
 
 class SearchView extends React.Component {
+
     state = {
         Books: [],
         query: '',
@@ -16,6 +17,22 @@ class SearchView extends React.Component {
             console.log('Search state books');
             console.log(this.state.Books);
         });
+    }
+
+    changeShelf = (book, shelf) => {
+
+        if (book.shelf !== shelf) {
+            BooksAPI.update(book, shelf).then(() => {
+                book.shelf = shelf
+                this.setState(state => ({
+                    books: state.Books.filter(b => b.id !== book.id).concat([book]),
+                    currentlyReadingBooks: state.Books.filter((book) => book.shelf === "currentlyReading"),
+                    wantToReadBooks: state.Books.filter((book) => book.shelf === 'wantToRead'),
+                    alreadyReadBooks: state.Books.filter((book) => book.shelf === 'read')
+                }))
+            })
+        }
+
     }
 
     updateQuery = (query) => {
@@ -38,11 +55,20 @@ class SearchView extends React.Component {
                     })
 
                 } else {
-                    searches.map(bookFromSearch =>
-                        (this.state.Books.map(
-                            bookFromShelf => bookFromShelf.id === bookFromSearch.id ?
-                                bookFromSearch.shelf = bookFromShelf.shelf : "")
-                        )
+                    searches.map((bookFromSearch) => {
+                        this.state.Books.map(function (book) {
+                            if (book.id === bookFromSearch.id) {
+                                bookFromSearch.shelf = book.shelf;
+                                bookFromSearch.authors = book.authors;
+                            } else {
+                                bookFromSearch.shelf = "";
+                                bookFromSearch.authors = [];
+
+                            }
+                            return bookFromSearch;
+                        })
+                        return bookFromSearch;
+                    }
                     )
 
                     this.setState({
@@ -80,9 +106,9 @@ class SearchView extends React.Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                    {this.state.searches.map((book) => (
-                        <BookItem src={book}></BookItem>
-                      ))}
+                        {this.state.searches.map((book) => (
+                            <BookItem src={book} changeShelf={this.changeShelf}></BookItem>
+                        ))}
                     </ol>
                 </div>
             </div>
