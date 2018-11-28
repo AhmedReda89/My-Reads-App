@@ -9,24 +9,14 @@ import './App.css';
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    
-    
     Books: [],
     currentlyReadingBooks: [],
     wantToReadBooks: [],
-    alreadyReadBooks: [],
-    showSearchPage: false
+    alreadyReadBooks: []
   }
   componentDidMount() {
     BooksAPI.getAll().then((Books) => {
       this.setState({ Books })
-      console.log(this.state.Books)
 
       this.setState((state) => ({
         currentlyReadingBooks: state.Books.filter((book) => book.shelf === "currentlyReading"),
@@ -42,7 +32,7 @@ class BooksApp extends React.Component {
       BooksAPI.update(book, shelf).then(() => {
         book.shelf = shelf
         this.setState(state => ({
-          books: state.Books.filter(b => b.id !== book.id).concat([book]),
+          Books: state.Books.filter(b => b.id !== book.id).concat([book]),
           currentlyReadingBooks: state.Books.filter((book) => book.shelf === "currentlyReading"),
           wantToReadBooks: state.Books.filter((book) => book.shelf === 'wantToRead'),
           alreadyReadBooks: state.Books.filter((book) => book.shelf === 'read')
@@ -55,7 +45,9 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        <Route exact path="/Search" component={SearchView}></Route>
+        <Route exact path="/search" render={() =>
+          <SearchView changeShelf={this.changeShelf}></SearchView>
+        }></Route>
         <Route exact path="/" render={() =>
           <div className="list-books">
             <ListHeader></ListHeader>
@@ -94,7 +86,7 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="open-search">
-              <Link to="/Search"></Link>
+              <Link to="/search"></Link>
             </div>
           </div>
         }></Route>

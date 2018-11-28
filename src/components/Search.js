@@ -14,25 +14,7 @@ class SearchView extends React.Component {
     componentDidMount() {
         BooksAPI.getAll().then((Books) => {
             this.setState({ Books })
-            console.log('Search state books');
-            console.log(this.state.Books);
         });
-    }
-
-    changeShelf = (book, shelf) => {
-
-        if (book.shelf !== shelf) {
-            BooksAPI.update(book, shelf).then(() => {
-                book.shelf = shelf
-                this.setState(state => ({
-                    books: state.Books.filter(b => b.id !== book.id).concat([book]),
-                    currentlyReadingBooks: state.Books.filter((book) => book.shelf === "currentlyReading"),
-                    wantToReadBooks: state.Books.filter((book) => book.shelf === 'wantToRead'),
-                    alreadyReadBooks: state.Books.filter((book) => book.shelf === 'read')
-                }))
-            })
-        }
-
     }
 
     updateQuery = (query) => {
@@ -46,7 +28,6 @@ class SearchView extends React.Component {
         if (query) {
 
             BooksAPI.search(query).then((searches) => {
-                console.log(searches)
 
                 if (searches.error) {
                     this.setState({
@@ -56,14 +37,11 @@ class SearchView extends React.Component {
 
                 } else {
                     searches.map((bookFromSearch) => {
+                                              
                         this.state.Books.map(function (book) {
                             if (book.id === bookFromSearch.id) {
                                 bookFromSearch.shelf = book.shelf;
                                 bookFromSearch.authors = book.authors;
-                            } else {
-                                bookFromSearch.shelf = "";
-                                bookFromSearch.authors = [];
-
                             }
                             return bookFromSearch;
                         })
@@ -107,7 +85,7 @@ class SearchView extends React.Component {
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {this.state.searches.map((book) => (
-                            <BookItem key={book.id} src={book} changeShelf={this.changeShelf}></BookItem>
+                            <BookItem key={book.id} src={book} changeShelf={this.props.changeShelf}></BookItem>
                         ))}
                     </ol>
                 </div>
