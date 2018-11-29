@@ -18,8 +18,8 @@ class BookItem extends React.Component {
                   </select>
                 </div>
               </div>
-              <div className="book-title">{this.props.src.title}</div>
-              <div className="book-authors">{this.props.src.authors.map((author)=> author+', ')}</div>
+              <div className="book-title">{this.props.src.title?this.props.src.title:'No Title'}</div>
+              <div className="book-authors">{this.props.src.authors?this.props.src.authors.map((author)=> author+', '):'Unknown Author'}</div>
             </div>
           </li>
       );
