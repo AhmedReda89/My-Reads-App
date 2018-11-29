@@ -29,10 +29,15 @@ class BooksApp extends React.Component {
   changeShelf = (book, shelf) => {
 
     if (book.shelf !== shelf) {
-      BooksAPI.update(book, shelf).then(() => {
+      BooksAPI.update(book, shelf)
+      .then(() => {
         book.shelf = shelf
         this.setState(state => ({
-          Books: state.Books.filter(b => b.id !== book.id).concat([book]),
+          Books: state.Books.filter(b => b.id !== book.id).concat([book])
+        }))
+      })
+      .then(()=>{
+        this.setState(state=>({
           currentlyReadingBooks: state.Books.filter((book) => book.shelf === "currentlyReading"),
           wantToReadBooks: state.Books.filter((book) => book.shelf === 'wantToRead'),
           alreadyReadBooks: state.Books.filter((book) => book.shelf === 'read')
